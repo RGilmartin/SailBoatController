@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16095" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16095"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -244,7 +244,7 @@
                     <window key="window" title="Bluetility" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="900" height="350"/>
+                        <rect key="contentRect" x="196" y="240" width="900" height="351"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <toolbar key="toolbar" implicitIdentifier="533C158D-7680-47F3-990F-C93EB5726D4D" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="Apq-FO-k1s">
                             <allowedToolbarItems>
@@ -283,7 +283,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-50" y="247"/>
+            <point key="canvasLocation" x="-50" y="247.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -305,8 +305,11 @@
                     </view>
                     <connections>
                         <outlet property="browser" destination="kaT-gA-YGL" id="ij5-hq-Nz3"/>
-                        <outlet property="readButton" destination="fqL-z9-hpC" id="M3Z-ZV-7HF"/>
-                        <outlet property="subscribeButton" destination="e59-Mo-I3N" id="ixE-ZD-QI8"/>
+                        <outlet property="controlRudder" destination="XKt-6v-j7s" id="kp6-dY-8as"/>
+                        <outlet property="controlSail" destination="EVl-0p-A1b" id="Vnx-7Y-Ugs"/>
+                        <outlet property="readButton" destination="mgT-zV-DLK" id="x6L-DZ-jG0"/>
+                        <outlet property="rudderLabel" destination="a6c-HD-VLB" id="Hit-ZZ-j2z"/>
+                        <outlet property="sailLabel" destination="OKb-ar-8L4" id="54a-T4-bfb"/>
                         <outlet property="writeAscii" destination="ZXU-Fy-j1z" id="5eW-rb-K4M"/>
                         <outlet property="writeHex" destination="Wwy-M1-tko" id="nhr-gh-HOT"/>
                     </connections>
@@ -319,9 +322,6 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
-                    <connections>
-                        <action selector="subscribeButtonPressed:" target="XfG-lQ-9wD" id="5IH-dk-4jO"/>
-                    </connections>
                 </button>
                 <textField verticalHuggingPriority="750" id="ZXU-Fy-j1z">
                     <rect key="frame" x="0.0" y="0.0" width="96" height="22"/>
@@ -354,12 +354,64 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                </button>
+                <slider verticalHuggingPriority="750" id="XKt-6v-j7s">
+                    <rect key="frame" x="0.0" y="0.0" width="192" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" state="on" alignment="left" minValue="40" maxValue="140" doubleValue="90" tickMarkPosition="above" numberOfTickMarks="31" allowsTickMarkValuesOnly="YES" sliderType="linear" id="5kS-WO-3Kp">
+                        <connections>
+                            <accessibilityConnection property="title" destination="a6c-HD-VLB" id="izA-S7-lMS"/>
+                        </connections>
+                    </sliderCell>
                     <connections>
-                        <action selector="readButtonPressed:" target="XfG-lQ-9wD" id="b5b-Wx-aZR"/>
+                        <action selector="rudderControl:" target="XfG-lQ-9wD" id="kab-KY-DoK"/>
+                    </connections>
+                </slider>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="a6c-HD-VLB">
+                    <rect key="frame" x="0.0" y="0.0" width="97" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Rudder Control" placeholderString="Rudder Control" drawsBackground="YES" id="ItU-fR-hng">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <accessibilityConnection property="title" destination="5kS-WO-3Kp" id="HWB-d2-FRe"/>
+                    </connections>
+                </textField>
+                <slider verticalHuggingPriority="750" id="EVl-0p-A1b">
+                    <rect key="frame" x="0.0" y="0.0" width="64" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" state="on" alignment="left" minValue="40" maxValue="140" doubleValue="90" tickMarkPosition="above" numberOfTickMarks="9" allowsTickMarkValuesOnly="YES" sliderType="linear" id="ir0-dQ-C9U"/>
+                    <connections>
+                        <action selector="sailControl:" target="XfG-lQ-9wD" id="72W-Tr-8HP"/>
+                    </connections>
+                </slider>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="OKb-ar-8L4">
+                    <rect key="frame" x="0.0" y="0.0" width="41" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Sail Control" placeholderString="Sail Control" id="hQm-l7-sXS">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <accessibilityConnection property="title" destination="hQm-l7-sXS" id="Shf-QM-zN5"/>
+                    </connections>
+                </textField>
+                <button verticalHuggingPriority="750" id="mgT-zV-DLK">
+                    <rect key="frame" x="0.0" y="0.0" width="82" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Read" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yNv-A7-He8">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="readButtonPressed:" target="XfG-lQ-9wD" id="K2f-h2-0yv"/>
                     </connections>
                 </button>
             </objects>
-            <point key="canvasLocation" x="68" y="664"/>
+            <point key="canvasLocation" x="72" y="727"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="7iB-mi-oNm">

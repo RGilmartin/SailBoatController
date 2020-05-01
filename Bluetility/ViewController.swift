@@ -26,12 +26,21 @@ class ViewController: NSViewController {
     @IBOutlet var readButton:NSButton!
     @IBOutlet var subscribeButton:NSButton!
     
-    var statusLabel:NSTextView = NSTextView()
+    @IBOutlet var rudderLabel:NSTextField!
+    @IBOutlet var controlRudder:NSSlider!
+    
+    @IBOutlet var sailLabel:NSTextField!
+    @IBOutlet var controlSail:NSSlider!
+    
+    @IBInspectable var statusLabel:NSTextView = NSTextView()
     
     var logWindowController:NSWindowController? = nil
     var logViewController:LogViewController? = nil
     var tooltipTagForRow:[Int:NSView.ToolTipTag] = [:]
     var rowForTooltipTag:[NSView.ToolTipTag:Int] = [:]
+    
+    var rudderPos = 90
+    var sailPos = 90
     
 
     override func viewDidLoad() {
@@ -279,7 +288,7 @@ extension ViewController : NSBrowserDelegate {
     }
     
     func setupCharacteristicControls() {
-        let minimumWidth = CGFloat(150)
+        let minimumWidth = CGFloat(650)
         let frameWidth = view.frame.size.width
         var otherWidth = browser.width(ofColumn: 0)
         otherWidth += browser.width(ofColumn: 1)
@@ -295,25 +304,45 @@ extension ViewController : NSBrowserDelegate {
             browser.scrollColumnToVisible(3)
         }
         
-        readButton.removeFromSuperview()
-        subscribeButton.removeFromSuperview()
         writeAscii.removeFromSuperview()
         writeHex.removeFromSuperview()
+        rudderLabel.removeFromSuperview()
+        controlRudder.removeFromSuperview()
+        sailLabel.removeFromSuperview()
+        controlSail.removeFromSuperview()
+        
+        rudderLabel.isEditable = false
+        rudderLabel.backgroundColor = NSColor.clear
+        rudderLabel.textColor = NSColor.white
+        sailLabel.isEditable = false
+        sailLabel.backgroundColor = NSColor.clear
+        rudderLabel.textColor = NSColor.white
+        
+        
         if let characteristic = selectedCharacteristic {
             let frame = browser.frame(ofColumn: 3)
             if characteristic.properties.contains(.read) {
-                browser.addSubview(readButton)
-                readButton.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 42),y: frame.origin.y + 120,width: 84,height: 32)
             }
             if !characteristic.properties.intersection([.write, .writeWithoutResponse]).isEmpty {
                 browser.addSubview(writeAscii)
                 browser.addSubview(writeHex)
+                
+                browser.addSubview(controlRudder)
+                browser.addSubview(rudderLabel)
+                
+                browser.addSubview(sailLabel)
+                browser.addSubview(controlSail)
+                
+                sailLabel.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 50),y: frame.origin.y + 330,width: 100,height: 20)
+                controlSail.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 250),y: frame.origin.y + 290,width: 500,height: 22)
+                
+                rudderLabel.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 50),y: frame.origin.y + 230,width: 100,height: 20)
+                controlRudder.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 250),y: frame.origin.y + 190,width: 500,height: 22)
+                
                 writeHex.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 75),y: frame.origin.y + 80,width: 150,height: 22)
                 writeAscii.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 75),y: frame.origin.y + 40,width: 150,height: 22)
             }
             if !characteristic.properties.intersection([.indicate, .notify]).isEmpty {
-                browser.addSubview(subscribeButton)
-                subscribeButton.frame = CGRect(x: frame.origin.x + (frame.size.width/2 - 45),y: frame.origin.y + 150,width: 90,height: 32)
             }
         }
     }
@@ -409,6 +438,39 @@ extension ViewController : NSBrowserDelegate {
             writeDataToSelectedCharacteristic(data)
         }
     }
+    
+    //
+    //
+    //
+    // CUSTOM CODE FOR CONROLLING BOAT STARTS HERE
+    //
+    //
+    //
+    
+    @IBAction
+    func sailControl(_ slider:NSSlider) {
+        if slider.stringValue.data(using: String.Encoding.ascii) != nil {
+            sailPos = Int(slider.intValue)
+            updateData()
+        }
+    }
+    
+    
+    @IBAction
+    func rudderControl(_ slider:NSSlider) {
+        if slider.stringValue.data(using: String.Encoding.ascii) != nil {
+            rudderPos = Int(slider.intValue)
+            updateData()
+        }
+    }
+    
+    func updateData() {
+        if let data = (String(rudderPos) + ":" + String(sailPos)).data(using: String.Encoding.ascii) {
+            writeDataToSelectedCharacteristic(data)
+        }
+    }
+    
+    
     
     func writeDataToSelectedCharacteristic(_ data:Data) {
         log("writing data \(data)")

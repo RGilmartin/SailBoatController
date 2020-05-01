@@ -132,11 +132,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Joseph Ross";
 				TargetAttributes = {
 					374931861BF169C90087E39F = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = S7DMCV3LPN;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -221,6 +222,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D85908F32427E34700CBECC9 /* Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 			};
 			name = Release;
 		};
@@ -228,6 +230,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D85908F22427E34700CBECC9 /* Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				DEVELOPMENT_TEAM = S7DMCV3LPN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryangilmartin.sailboatController;
 			};
 			name = Debug;
 		};
@@ -235,6 +240,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D85908F32427E34700CBECC9 /* Release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				DEVELOPMENT_TEAM = S7DMCV3LPN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryangilmartin.sailboatController;
 			};
 			name = Release;
 		};
